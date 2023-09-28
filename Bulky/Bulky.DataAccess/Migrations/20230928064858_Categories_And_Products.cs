@@ -7,7 +7,7 @@
 namespace Bulky.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Seed_Add_To_Database : Migration
+    public partial class Categories_And_Products : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,11 +38,19 @@ namespace Bulky.DataAccess.Migrations
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ListPrice = table.Column<double>(type: "float", nullable: false),
                     Price50 = table.Column<double>(type: "float", nullable: false),
-                    Price100 = table.Column<double>(type: "float", nullable: false)
+                    Price100 = table.Column<double>(type: "float", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -57,23 +65,28 @@ namespace Bulky.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Author", "Description", "ISBN", "ListPrice", "Price100", "Price50", "Title" },
+                columns: new[] { "Id", "Author", "CategoryId", "Description", "ISBN", "ImageUrl", "ListPrice", "Price100", "Price50", "Title" },
                 values: new object[,]
                 {
-                    { 1, "Hamza", "A biography about our beloved prophet", "SWD999901", 99.0, 80.0, 85.0, "Sunnah" },
-                    { 2, "Hamza", "A biography about our beloved companion Omar bin Alkhattab", "SWD999902", 99.0, 80.0, 85.0, "Omar" },
-                    { 3, "Hamza", "A biography about our beloved companion Abu Bakr", "SWD999903", 99.0, 80.0, 85.0, "Abu Bakr" }
+                    { 1, "Hamza", 1, "A biography about our beloved prophet", "SWD999901", "", 99.0, 80.0, 85.0, "Sunnah" },
+                    { 2, "Hamza", 2, "A biography about our beloved companion Omar bin Alkhattab", "SWD999902", "", 99.0, 80.0, 85.0, "Omar" },
+                    { 3, "Hamza", 3, "A biography about our beloved companion Abu Bakr", "SWD999903", "", 99.0, 80.0, 85.0, "Abu Bakr" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Categories");
         }
     }
 }

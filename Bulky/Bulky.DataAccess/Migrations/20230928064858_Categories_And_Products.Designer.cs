@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230924224440_Seed_Add_To_Database")]
-    partial class Seed_Add_To_Database
+    [Migration("20230928064858_Categories_And_Products")]
+    partial class Categories_And_Products
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,11 +77,18 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -100,6 +107,8 @@ namespace Bulky.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
@@ -107,8 +116,10 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Hamza",
+                            CategoryId = 1,
                             Description = "A biography about our beloved prophet",
                             ISBN = "SWD999901",
+                            ImageUrl = "",
                             ListPrice = 99.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
@@ -118,8 +129,10 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Hamza",
+                            CategoryId = 2,
                             Description = "A biography about our beloved companion Omar bin Alkhattab",
                             ISBN = "SWD999902",
+                            ImageUrl = "",
                             ListPrice = 99.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
@@ -129,13 +142,26 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Hamza",
+                            CategoryId = 3,
                             Description = "A biography about our beloved companion Abu Bakr",
                             ISBN = "SWD999903",
+                            ImageUrl = "",
                             ListPrice = 99.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Abu Bakr"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Product", b =>
+                {
+                    b.HasOne("Bulky.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
