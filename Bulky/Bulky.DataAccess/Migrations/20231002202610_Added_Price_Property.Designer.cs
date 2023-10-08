@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230928064858_Categories_And_Products")]
-    partial class Categories_And_Products
+    [Migration("20231002202610_Added_Price_Property")]
+    partial class Added_Price_Property
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,6 +95,9 @@ namespace Bulky.DataAccess.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<double>("Price100")
                         .HasColumnType("float");
 
@@ -121,6 +124,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999901",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Sunnah"
@@ -134,6 +138,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999902",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Omar"
@@ -147,6 +152,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999903",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Abu Bakr"

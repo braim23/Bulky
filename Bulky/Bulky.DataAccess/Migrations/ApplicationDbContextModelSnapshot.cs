@@ -92,6 +92,9 @@ namespace Bulky.DataAccess.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<double>("Price100")
                         .HasColumnType("float");
 
@@ -118,6 +121,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999901",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Sunnah"
@@ -131,6 +135,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999902",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Omar"
@@ -144,6 +149,7 @@ namespace Bulky.DataAccess.Migrations
                             ISBN = "SWD999903",
                             ImageUrl = "",
                             ListPrice = 99.0,
+                            Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
                             Title = "Abu Bakr"

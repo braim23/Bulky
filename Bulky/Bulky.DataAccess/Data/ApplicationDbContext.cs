@@ -1,9 +1,10 @@
 ﻿using Bulky.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bulky.DataAccess.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -16,6 +17,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
             new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
@@ -31,6 +33,7 @@ public class ApplicationDbContext : DbContext
                 ISBN = "SWD999901",
                 Author="Hamza",
                 ListPrice = 99,
+                Price = 90,
                 Price50 = 85,
                 Price100 = 80,
                 CategoryId = 1,
@@ -44,6 +47,7 @@ public class ApplicationDbContext : DbContext
                 ISBN = "SWD999902",
                 Author = "Hamza",
                 ListPrice = 99,
+                Price = 90,
                 Price50 = 85,
                 Price100 = 80,
                 CategoryId = 2,
@@ -57,6 +61,7 @@ public class ApplicationDbContext : DbContext
                 ISBN = "SWD999903",
                 Author = "Hamza",
                 ListPrice = 99,
+                Price = 90,
                 Price50 = 85,
                 Price100 = 80,
                 CategoryId = 3,
