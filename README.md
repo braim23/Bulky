@@ -13,4 +13,6 @@ Designed with Bootstrap and a bit of small libraries: Toastr, sweetalert2, DataT
 
 - Just update the database and run the project, the DbInitializer will create an admin user with the following credentials:
   `admin@mail.com`, `1q2w3E*`.
-  
+
+  # Demo:
+  https://hamzabraim.com/Home/Projects#book
