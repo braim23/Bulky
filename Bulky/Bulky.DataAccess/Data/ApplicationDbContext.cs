@@ -14,6 +14,11 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Company> Compaiens { get; set; }
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<OrderHeader> OrderHeaders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +28,40 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
             new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
             new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+            );
+
+        modelBuilder.Entity<Company>().HasData(
+            new Company
+            {
+                Id = 1,
+                Name = "Big Tech",
+                StreetAddress = "123 Tech St.",
+                City = "Tech City",
+                PostalCode = "12345",
+                State = "IL",
+                PhoneNumber = "1234567891"
+            },
+            new Company
+            {
+                Id = 2,
+                Name = "Big Books",
+                StreetAddress = "123 Book St.",
+                City = "Book City",
+                PostalCode = "12345",
+                State = "IL",
+                PhoneNumber = "1234567891"
+            },
+            new Company
+            {
+                Id = 3,
+                Name = "Big Cook",
+                StreetAddress = "123 Cook St.",
+                City = "Cook City",
+                PostalCode = "12345",
+                State = "IL",
+                PhoneNumber = "1234567891"
+            }
+
             );
 
         modelBuilder.Entity<Product>().HasData(

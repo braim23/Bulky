@@ -1,7 +1,12 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Issuing;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Customer.Controllers
 {
@@ -19,14 +24,57 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }
 
         public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Product.GetFirstOrDefault(u=>u.Id== productId, includeProperties: "Category");
-            return View(product);
+            ShoppingCart shoppingCart = new()
+            {
+                Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Category"),
+                Count = 1,
+                ProductId = productId
+            };
+            return View(shoppingCart);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(u=>u.ApplicationUserId == userId &&
+            u.ProductId == shoppingCart.ProductId);
+            if (cartFromDb != null)
+            {
+                //stuff already exists in the cart
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
+                //HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
+            }
+            else
+            {
+                //cart is empty
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == userId).Count());
+            }
+            TempData["success"] = "Added to the cart!";
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
