@@ -1,5 +1,8 @@
 # Bulky
-An E-Commerce .NET 7 MVC web app to sell books seperately or in bulk with a discounted price. Featuring admin CRUD pages for Book categories, companies and users. The logic of having companies is the capability to ship the order before payment. Integrated with Stripe and Facebook, the user can register using Facebook. Designed with Bootstrap and a bit of small libraries: Toastr, sweetalert2, DataTable.js and Tiny.
+A book store e-commerce .NET 7 MVC web app to sell books seperately or in bulk at a discounted price. 
+Featuring admin CRUD pages for Book categories, companies and users. The logic of having companies is the capability 
+of shipping the order before finishing up the payment. Integrated with Stripe and Facebook, the user can register using Facebook. 
+Designed with Bootstrap and a bit of small libraries: Toastr, sweetalert2, DataTable.js and Tiny.
 
 - .NET MVC
 - SQL Server + EF Core
